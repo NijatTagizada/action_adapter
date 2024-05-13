@@ -1,18 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 abstract class ActionAdapter extends StatelessWidget {
   const ActionAdapter({super.key});
 
+  /// Getter for icon
   Widget get icon;
+
+  /// Getter tap function
+  /// Optionally we can pass BuildContext
   void Function(BuildContext context) get onTap;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
       icon: icon,
-      onPressed: () {
-        onTap(context);
-      },
+      onPressed: () => onTap(context),
     );
   }
 }
@@ -23,11 +26,17 @@ class PhoneAction extends ActionAdapter {
     required this.phoneNumber,
   });
 
+  /// Custom data. You can pass anything you want
   final String phoneNumber;
 
+  /// Override [icon] getter and implement your icons
   @override
-  Widget get icon => const Icon(Icons.phone);
+  Widget get icon => const Icon(
+        CupertinoIcons.phone_arrow_up_right,
+        color: Colors.green,
+      );
 
+  /// Override the [onTap] function to handle your action.
   @override
   void Function(BuildContext context) get onTap => (context) {
         print(phoneNumber);
@@ -43,7 +52,10 @@ class SmsAction extends ActionAdapter {
   final String phoneNumber;
 
   @override
-  Widget get icon => const Icon(Icons.message, color: Colors.red);
+  Widget get icon => const Icon(
+        CupertinoIcons.bubble_right,
+        color: Colors.green,
+      );
 
   @override
   void Function(BuildContext context) get onTap => (context) {
@@ -60,10 +72,7 @@ class WebAction extends ActionAdapter {
   final String url;
 
   @override
-  Widget get icon => const Icon(
-        Icons.open_in_browser,
-        color: Colors.blue,
-      );
+  Widget get icon => const Icon(CupertinoIcons.globe, color: Colors.green);
 
   @override
   void Function(BuildContext context) get onTap => (context) {
@@ -80,7 +89,7 @@ class ShareAction extends ActionAdapter {
   final String data;
 
   @override
-  Widget get icon => const Icon(Icons.share, color: Colors.amber);
+  Widget get icon => const Icon(CupertinoIcons.share, color: Colors.green);
 
   @override
   void Function(BuildContext context) get onTap => (context) {

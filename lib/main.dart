@@ -11,9 +11,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.green,
+          title: Text(
+            'Action Adapter',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
         body: Column(
           children: [
             ContactItem(
@@ -24,11 +31,12 @@ class MainApp extends StatelessWidget {
               text: 'John Doe (123 456 789)',
             ),
             ContactItem(
-              actions: [
-                WebAction(url: 'https://pub.dev/'),
-                ShareAction(data: 'https://pub.dev/')
-              ],
+              actions: [ShareAction(data: 'https://pub.dev/')],
               text: 'Url: https://pub.dev/',
+            ),
+            ContactItem(
+              actions: [WebAction(url: 'https://pub.dev/packages/kt_utils')],
+              text: 'Url: https://pub.dev/packages/kt_utils',
             ),
           ],
         ),
@@ -44,25 +52,38 @@ class ContactItem extends StatelessWidget {
     required this.text,
   });
 
+  /// For title
   final String text;
+
+  /// Important: List type should be [ActionAdapter]
   final List<ActionAdapter> actions;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
             children: [
-              Expanded(child: Text(text)),
+              Expanded(
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
               SizedBox(width: 8),
+
+              /// Add actions here
               ...actions,
             ],
           ),
-          Divider(),
-        ],
-      ),
+        ),
+        Divider(
+          color: Colors.blue.withAlpha(50),
+          thickness: 1,
+        ),
+      ],
     );
   }
 }
